@@ -55,7 +55,7 @@ export default function OrderDetailPage({
                         {formatCurrency(item.unitPrice)} × {item.quantity}
                       </p>
                     </div>
-                    <p className="font-medium">{formatCurrency(item.totalPrice)}</p>
+                    <p className="font-medium">{formatCurrency(item.lineTotal)}</p>
                   </div>
                 ))}
               </div>
@@ -68,9 +68,15 @@ export default function OrderDetailPage({
                   <span>Delivery Fee</span>
                   <span>{formatCurrency(order.deliveryFee)}</span>
                 </div>
+                {typeof order.discount === "number" && order.discount > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span>Discount</span>
+                    <span>-{formatCurrency(order.discount)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between font-bold text-lg pt-2 border-t">
-                  <span>Grand Total</span>
-                  <span>{formatCurrency(order.grandTotal)}</span>
+                  <span>Total</span>
+                  <span>{formatCurrency(order.totalAmount)}</span>
                 </div>
               </div>
             </CardContent>

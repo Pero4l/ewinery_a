@@ -5,7 +5,8 @@ export interface Order {
   orderNumber: string;
   subtotal: number;
   deliveryFee: number;
-  grandTotal: number;
+  discount?: number;
+  totalAmount: number;
   status: OrderStatus;
   paymentStatus?: string;
   customerNote?: string;
@@ -33,10 +34,10 @@ export interface OrderItem {
   id: string;
   productId: string;
   productName: string;
-  productImage?: string;
+  productImageUrl?: string;
   quantity: number;
   unitPrice: number;
-  totalPrice: number;
+  lineTotal: number;
 }
 
 export interface OrderStatusHistory {

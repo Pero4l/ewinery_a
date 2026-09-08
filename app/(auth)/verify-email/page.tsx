@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -21,11 +21,14 @@ import apiClient from "@/lib/api-client";
 
 export default function VerifyEmailPage() {
   const router = useRouter();
-  const storedUser = getStoredUser();
-  const [email, setEmail] = useState(storedUser?.email ?? "");
+  const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
+
+  useEffect(() => {
+    setEmail(getStoredUser()?.email ?? "");
+  }, []);
 
   const handleVerify = async () => {
     if (!token.trim()) {

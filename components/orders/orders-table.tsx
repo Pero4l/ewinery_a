@@ -91,7 +91,7 @@ export function OrdersTable() {
                   <TableRow key={order.id}>
                     <TableCell className="font-medium">{order.orderNumber}</TableCell>
                     <TableCell>{order.user?.fullName || "-"}</TableCell>
-                    <TableCell>{formatCurrency(order.grandTotal)}</TableCell>
+                    <TableCell>{formatCurrency(order.totalAmount)}</TableCell>
                     <TableCell>
                       <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${ORDER_STATUS_COLORS[order.status] || ""}`}>
                         {ORDER_STATUS_LABELS[order.status] || order.status}

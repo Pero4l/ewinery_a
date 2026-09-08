@@ -40,12 +40,14 @@ function toDate(date: string | number | Date | null | undefined): Date | null {
   return Number.isNaN(d.getTime()) ? null : d;
 }
 
-export function formatCurrency(amount: number): string {
+export function formatCurrency(amount: number | null | undefined): string {
+  const value = Number(amount);
+  if (!Number.isFinite(value)) return "—";
   return new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency: "NGN",
     minimumFractionDigits: 0,
-  }).format(amount);
+  }).format(value);
 }
 
 export function formatDate(
