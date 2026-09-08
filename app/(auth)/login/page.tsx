@@ -104,6 +104,9 @@ function LoginFormInner() {
             >
               Forgot password?
             </Link>
+            <Link href="/register" className="text-[#722f37] hover:underline">
+              Register admin
+            </Link>
           </div>
         </CardFooter>
       </form>

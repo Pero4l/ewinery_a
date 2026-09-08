@@ -4,7 +4,9 @@ export interface User {
   email: string;
   phone?: string;
   role: "USER" | "ADMIN";
-  emailVerified: boolean;
+  emailVerified?: boolean;
+  emailVerifiedAt?: string | null;
+  isEmailVerified?: boolean;
   isActive?: boolean;
   createdAt: string;
   updatedAt?: string;

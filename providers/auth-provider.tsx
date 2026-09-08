@@ -10,6 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import type { User } from "@/types";
 import apiClient from "@/lib/api-client";
+import { isEmailVerified } from "@/lib/utils";
 import {
   getAccessToken,
   getStoredUser,
@@ -23,6 +24,13 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  register: (data: {
+    fullName: string;
+    email: string;
+    phone: string;
+    password: string;
+    signupKey: string;
+  }) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -45,7 +53,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setTokens(result.accessToken, result.refreshToken);
       setStoredUser(result.user);
       setUser(result.user);
-      router.push("/dashboard");
+      if (result.user && !isEmailVerified(result.user)) {
+        router.push("/verify-email");
+      } else {
+        router.push("/dashboard");
+      }
+    },
+    [router]
+  );
+
+  const register = useCallback(
+    async (data: {
+      fullName: string;
+      email: string;
+      phone: string;
+      password: string;
+      signupKey: string;
+    }) => {
+      const { data: res } = await apiClient.post("/admin/register", data);
+      const result = res.data;
+      setTokens(result.accessToken, result.refreshToken);
+      setStoredUser(result.user);
+      setUser(result.user);
+      if (result.user && !isEmailVerified(result.user)) {
+        router.push("/verify-email");
+      } else {
+        router.push("/dashboard");
+      }
     },
     [router]
   );
@@ -62,7 +96,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [router]);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, login, logout, register }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { useUser, useUpdateUser } from "@/hooks/use-users";
 import { LoadingPage } from "@/components/shared/loading-page";
-import { formatDate } from "@/lib/utils";
+import { formatDate, isEmailVerified } from "@/lib/utils";
 import Link from "next/link";
 
 const schema = z.object({
@@ -170,7 +170,7 @@ export default function UserDetailPage({
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Email Verified</p>
-              <p className="font-medium">{user.emailVerified ? "Yes" : "No"}</p>
+              <p className="font-medium">{isEmailVerified(user) ? "Yes" : "No"}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Role</p>

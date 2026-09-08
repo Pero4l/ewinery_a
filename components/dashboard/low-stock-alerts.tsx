@@ -10,6 +10,8 @@ import { useLowStockProducts } from "@/hooks/use-dashboard";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle } from "lucide-react";
 import Link from "next/link";
+import { asArray } from "@/lib/utils";
+import type { LowStockProduct } from "@/types";
 
 export function LowStockAlerts() {
   const { data: products, isLoading } = useLowStockProducts();
@@ -29,7 +31,7 @@ export function LowStockAlerts() {
     );
   }
 
-  const items = products || [];
+  const items = asArray<LowStockProduct>(products);
 
   return (
     <Card>

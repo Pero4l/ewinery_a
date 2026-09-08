@@ -13,14 +13,14 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSalesTrend } from "@/hooks/use-dashboard";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, asArray } from "@/lib/utils";
+import type { SalesTrend } from "@/types";
 
 export function SalesChart() {
   const { data: salesData, isLoading } = useSalesTrend();
 
   const chartData = useMemo(() => {
-    if (!salesData) return [];
-    return salesData.map((item) => ({
+    return asArray<SalesTrend>(salesData).map((item) => ({
       date: new Date(item.date).toLocaleDateString("en-NG", {
         month: "short",
         day: "numeric",
