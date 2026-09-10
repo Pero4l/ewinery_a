@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -63,25 +63,46 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<Form>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: product?.name || "",
-      description: product?.description || "",
-      price: product?.price || 0,
-      compareAtPrice: product?.compareAtPrice || undefined,
-      sku: product?.sku || "",
-      stockQuantity: product?.stockQuantity || 0,
-      volumeMl: product?.volumeMl || undefined,
-      alcoholPercentage: product?.alcoholPercentage || undefined,
-      brand: product?.brand || "",
-      country: product?.country || "",
-      categoryId: product?.categoryId || "",
-      status: product?.status || "DRAFT",
-      isAvailable: product?.isAvailable ?? true,
+      name: "",
+      description: "",
+      price: 0,
+      compareAtPrice: undefined,
+      sku: "",
+      stockQuantity: 0,
+      volumeMl: undefined,
+      alcoholPercentage: undefined,
+      brand: "",
+      country: "",
+      categoryId: "",
+      status: "DRAFT",
+      isAvailable: true,
     },
   });
+
+  useEffect(() => {
+    if (product) {
+      reset({
+        name: product.name || "",
+        description: product.description || "",
+        price: product.price || 0,
+        compareAtPrice: product.compareAtPrice || undefined,
+        sku: product.sku || "",
+        stockQuantity: product.stockQuantity || 0,
+        volumeMl: product.volumeMl || undefined,
+        alcoholPercentage: product.alcoholPercentage || undefined,
+        brand: product.brand || "",
+        country: product.country || "",
+        categoryId: product.categoryId || "",
+        status: product.status || "DRAFT",
+        isAvailable: product.isAvailable ?? true,
+      });
+    }
+  }, [product, reset]);
 
   const onSubmit = async (data: Form) => {
     try {
