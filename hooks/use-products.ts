@@ -21,7 +21,10 @@ export function useProducts(params?: Record<string, string>) {
 export function useProduct(id: string | null) {
   return useSWR<Product>(
     id ? `/admin/products/${id}` : null,
-    fetcher
+    async (url: string) => {
+      const data = await fetcher(url);
+      return data.product ?? data;
+    }
   );
 }
 
