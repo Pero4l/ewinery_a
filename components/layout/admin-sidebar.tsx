@@ -13,6 +13,7 @@ import {
   Star,
   LifeBuoy,
   Menu,
+  TicketPercent,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ const navItems = [
   { label: "Categories", href: "/categories", icon: Tag },
   { label: "Orders", href: "/orders", icon: ShoppingCart },
   { label: "Transactions", href: "/transactions", icon: CreditCard },
+  { label: "Coupons", href: "/coupons", icon: TicketPercent },
   { label: "Reviews", href: "/reviews", icon: Star },
   { label: "Support", href: "/support", icon: LifeBuoy },
 ];

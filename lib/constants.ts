@@ -115,6 +115,32 @@ export const PRODUCT_STATUS_COLORS: Record<string, string> = {
   ARCHIVED: "bg-red-100 text-red-800 border-red-200",
 };
 
+export const COUPON_STATUS_LABELS: Record<string, string> = {
+  ACTIVE: "Active",
+  UPCOMING: "Upcoming",
+  EXPIRED: "Expired",
+  INACTIVE: "Inactive",
+  REDEEMED: "Redeemed",
+};
+
+export const COUPON_STATUS_COLORS: Record<string, string> = {
+  ACTIVE: "bg-green-100 text-green-800 border-green-200",
+  UPCOMING: "bg-blue-100 text-blue-800 border-blue-200",
+  EXPIRED: "bg-gray-100 text-gray-800 border-gray-200",
+  INACTIVE: "bg-orange-100 text-orange-800 border-orange-200",
+  REDEEMED: "bg-red-100 text-red-800 border-red-200",
+};
+
+export const COUPON_ASSIGNMENT_STATUS_LABELS: Record<string, string> = {
+  REDEEMED: "Redeemed",
+  UNREDEEMED: "Unredeemed",
+};
+
+export const COUPON_ASSIGNMENT_STATUS_COLORS: Record<string, string> = {
+  REDEEMED: "bg-red-100 text-red-800 border-red-200",
+  UNREDEEMED: "bg-green-100 text-green-800 border-green-200",
+};
+
 export const NAV_ITEMS = [
   { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard" },
   { label: "Users", href: "/users", icon: "Users" },
@@ -122,6 +148,7 @@ export const NAV_ITEMS = [
   { label: "Categories", href: "/categories", icon: "Tag" },
   { label: "Orders", href: "/orders", icon: "ShoppingCart" },
   { label: "Transactions", href: "/transactions", icon: "CreditCard" },
+  { label: "Coupons", href: "/coupons", icon: "TicketPercent" },
   { label: "Reviews", href: "/reviews", icon: "Star" },
   { label: "Support", href: "/support", icon: "LifeBuoy" },
 ] as const;

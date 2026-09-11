@@ -40,3 +40,13 @@ export type {
   SalesTrend,
   LowStockProduct,
 } from "./dashboard";
+export type {
+  Coupon,
+  CouponStatus,
+  CouponAssignment,
+  CouponAssignmentStatus,
+  CreateCouponDto,
+  UpdateCouponDto,
+  AssignCouponDto,
+  RevokeCouponDto,
+} from "./coupon";
