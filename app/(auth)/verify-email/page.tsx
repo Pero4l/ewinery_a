@@ -123,7 +123,7 @@ export default function VerifyEmailPage() {
           Resend Verification Email
         </Button>
         <div className="w-full text-center text-sm">
-          <Link href="/login" className="text-[#722f37] hover:underline">
+          <Link href="/login" className="text-gold-700 hover:underline">
             Back to sign in
           </Link>
         </div>

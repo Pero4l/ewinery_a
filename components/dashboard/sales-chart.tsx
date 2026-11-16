@@ -2,7 +2,8 @@
 
 import { useMemo } from "react";
 import {
-  LineChart,
+  ComposedChart,
+  Area,
   Line,
   XAxis,
   YAxis,
@@ -11,10 +12,20 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { useSalesTrend } from "@/hooks/use-dashboard";
 import { formatCurrency, asArray } from "@/lib/utils";
 import type { SalesTrend } from "@/types";
+
+const GOLD = "#c9a13b";
+const INK = "#3a342b";
+const AXIS = "#8a8274";
 
 export function SalesChart() {
   const { data: salesData, isLoading } = useSalesTrend();
@@ -46,7 +57,8 @@ export function SalesChart() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Sales Trend</CardTitle>
+        <CardTitle className="text-base font-semibold">Sales Trend</CardTitle>
+        <CardDescription>Revenue and order volume over time</CardDescription>
       </CardHeader>
       <CardContent>
         {chartData.length === 0 ? (
@@ -55,46 +67,74 @@ export function SalesChart() {
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+            <ComposedChart data={chartData} margin={{ top: 8, right: 4, left: -8, bottom: 0 }}>
+              <defs>
+                <linearGradient id="revenueFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={GOLD} stopOpacity={0.35} />
+                  <stop offset="100%" stopColor={GOLD} stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} stroke="#ece7dc" />
               <XAxis
                 dataKey="date"
-                tick={{ fontSize: 12 }}
-                className="text-muted-foreground"
+                tick={{ fontSize: 12, fill: AXIS }}
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
               />
               <YAxis
-                tick={{ fontSize: 12 }}
+                yAxisId="revenue"
+                tick={{ fontSize: 12, fill: AXIS }}
                 tickFormatter={(v) => `₦${(v / 1000).toFixed(0)}k`}
-                className="text-muted-foreground"
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                yAxisId="orders"
+                orientation="right"
+                allowDecimals={false}
+                tick={{ fontSize: 12, fill: AXIS }}
+                tickLine={false}
+                axisLine={false}
               />
               <Tooltip
+                cursor={{ stroke: GOLD, strokeOpacity: 0.4 }}
+                contentStyle={{
+                  borderRadius: 10,
+                  border: "1px solid #ece7dc",
+                  boxShadow: "0 8px 24px rgba(60, 45, 10, 0.08)",
+                  fontSize: 12,
+                }}
                 formatter={(value, name) => {
                   const numeric = Number(value ?? 0);
-                  return (
-                    name === "revenue"
-                      ? [formatCurrency(numeric), "Revenue"]
-                      : [numeric, "Orders"]
-                  );
+                  return name === "Revenue"
+                    ? [formatCurrency(numeric), "Revenue"]
+                    : [numeric, "Orders"];
                 }}
               />
-              <Legend />
-              <Line
+              <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
+              <Area
+                yAxisId="revenue"
                 type="monotone"
                 dataKey="revenue"
-                stroke="#722f37"
-                strokeWidth={2}
-                dot={{ fill: "#722f37" }}
+                stroke={GOLD}
+                strokeWidth={2.5}
+                fill="url(#revenueFill)"
+                dot={false}
+                activeDot={{ r: 5, fill: GOLD, stroke: "#fff", strokeWidth: 2 }}
                 name="Revenue"
               />
               <Line
+                yAxisId="orders"
                 type="monotone"
                 dataKey="orders"
-                stroke="#3b82f6"
+                stroke={INK}
                 strokeWidth={2}
-                dot={{ fill: "#3b82f6" }}
+                dot={false}
+                activeDot={{ r: 4, fill: INK, stroke: "#fff", strokeWidth: 2 }}
                 name="Orders"
               />
-            </LineChart>
+            </ComposedChart>
           </ResponsiveContainer>
         )}
       </CardContent>

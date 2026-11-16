@@ -24,6 +24,7 @@ const pageTitles: Record<string, string> = {
   "/reviews": "Reviews",
   "/support": "Support Tickets",
   "/notifications": "Notifications",
+  "/coupons": "Coupons",
 };
 
 export function AdminHeader() {
@@ -40,6 +41,8 @@ export function AdminHeader() {
       ? "Category Details"
       : pathname.startsWith("/orders/")
       ? "Order Details"
+      : pathname.startsWith("/coupons/")
+      ? "Coupon Details"
       : pathname.startsWith("/support/")
       ? "Ticket Details"
       : "Admin");
@@ -54,18 +57,26 @@ export function AdminHeader() {
     : "AD";
 
   return (
-    <header className="h-16 border-b bg-white flex items-center justify-between px-6">
-      <div className="flex items-center gap-4">
-        <div className="lg:hidden w-10" />
-        <h1 className="text-lg font-semibold">{title}</h1>
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-card/85 px-4 backdrop-blur supports-[backdrop-filter]:bg-card/70 sm:px-6">
+      <div className="flex min-w-0 items-center gap-4">
+        <div className="w-10 shrink-0 lg:hidden" />
+        <div className="min-w-0">
+          <p className="hidden text-[11px] font-medium uppercase tracking-[0.18em] text-gold-700 sm:block">
+            eWinery Admin
+          </p>
+          <h1 className="truncate font-display text-lg font-semibold leading-tight sm:text-xl">
+            {title}
+          </h1>
+        </div>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
         <NotificationBell />
+        <div className="hidden h-6 w-px bg-border sm:block" />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-2 rounded-full p-0.5 hover:bg-gray-100 transition-colors">
+            <button className="flex items-center gap-2 rounded-full p-0.5 pr-2 transition-colors hover:bg-muted">
               <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-[#722f37] text-white text-xs">
+                <AvatarFallback className="bg-gold-gradient text-xs font-semibold text-gold-900">
                   {initials}
                 </AvatarFallback>
               </Avatar>

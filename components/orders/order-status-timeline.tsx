@@ -53,8 +53,8 @@ export function OrderStatusTimeline({ history, currentStatus }: OrderStatusTimel
                     isCompleted
                       ? "bg-green-500 border-green-500"
                       : isCurrent
-                      ? "bg-[#722f37] border-[#722f37]"
-                      : "bg-white border-gray-300"
+                      ? "bg-primary border-primary"
+                      : "bg-card border-border"
                   )}
                 >
                   {isCompleted && <Check className="h-3.5 w-3.5 text-white" />}
@@ -66,10 +66,10 @@ export function OrderStatusTimeline({ history, currentStatus }: OrderStatusTimel
                   className={cn(
                     "text-sm",
                     isCurrent
-                      ? "font-semibold text-[#722f37]"
+                      ? "font-semibold text-gold-700"
                       : isCompleted
                       ? "text-green-700"
-                      : "text-gray-400"
+                      : "text-muted-foreground"
                   )}
                 >
                   {ORDER_STATUS_LABELS[status]}

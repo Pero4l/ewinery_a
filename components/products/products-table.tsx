@@ -143,7 +143,7 @@ export function ProductsTable() {
                     <TableCell>
                       <Link
                         href={`/products/${product.id}`}
-                        className="font-medium hover:underline text-[#722f37]"
+                        className="font-medium hover:underline text-gold-700"
                       >
                         {product.name}
                       </Link>

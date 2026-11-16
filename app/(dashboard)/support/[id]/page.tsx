@@ -111,7 +111,7 @@ export default function TicketDetailPage({
                       msg.isInternalNote
                         ? "bg-yellow-50 border border-yellow-200"
                         : isAgent
-                        ? "bg-[#722f37]/5 border border-[#722f37]/10 ml-8"
+                        ? "bg-primary/10 border border-primary/25 ml-8"
                         : "bg-muted mr-8"
                     }`}
                   >

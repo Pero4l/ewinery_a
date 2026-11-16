@@ -55,7 +55,7 @@ export function NotificationBell() {
           {unreadCount > 0 && (
             <button
               onClick={handleMarkAllRead}
-              className="text-xs text-[#722f37] hover:underline"
+              className="text-xs text-gold-700 hover:underline"
             >
               Mark all read
             </button>
@@ -75,13 +75,13 @@ export function NotificationBell() {
                     !notification.isRead && handleMarkRead(notification.id)
                   }
                   className={cn(
-                    "w-full text-left px-4 py-3 border-b last:border-0 hover:bg-gray-50 transition-colors",
-                    !notification.isRead && "bg-[#722f37]/5"
+                    "w-full text-left px-4 py-3 border-b last:border-0 hover:bg-muted/60 transition-colors",
+                    !notification.isRead && "bg-primary/10"
                   )}
                 >
                   <div className="flex items-start gap-3">
                     {!notification.isRead && (
-                      <div className="h-2 w-2 rounded-full bg-[#722f37] mt-1.5 shrink-0" />
+                      <div className="h-2 w-2 rounded-full bg-primary mt-1.5 shrink-0" />
                     )}
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">

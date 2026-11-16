@@ -24,7 +24,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
   if (!mounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#722f37] border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
       </div>
     );
   }
@@ -32,11 +32,13 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <AdminSidebar />
       <div className="lg:pl-64 flex flex-col min-h-screen">
         <AdminHeader />
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+          <div className="mx-auto w-full max-w-7xl">{children}</div>
+        </main>
       </div>
     </div>
   );

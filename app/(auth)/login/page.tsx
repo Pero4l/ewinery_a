@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import {
   Card,
@@ -79,9 +80,8 @@ function LoginFormInner() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
               placeholder="Enter your password"
               {...register("password")}
             />
@@ -100,11 +100,11 @@ function LoginFormInner() {
           <div className="flex justify-between w-full text-sm">
             <Link
               href="/forgot-password"
-              className="text-[#722f37] hover:underline"
+              className="text-gold-700 hover:underline"
             >
               Forgot password?
             </Link>
-            <Link href="/register" className="text-[#722f37] hover:underline">
+            <Link href="/register" className="text-gold-700 hover:underline">
               Register admin
             </Link>
           </div>

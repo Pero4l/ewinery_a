@@ -1,9 +1,9 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useDashboardStats } from "@/hooks/use-dashboard";
 import { formatCurrency } from "@/lib/utils";
-import { Users, Package, ShoppingCart, DollarSign } from "lucide-react";
+import { Users, Package, ShoppingCart, Wallet } from "lucide-react";
 
 export function StatsCards() {
   const { data: stats, isLoading } = useDashboardStats();
@@ -12,44 +12,42 @@ export function StatsCards() {
     {
       title: "Total Revenue",
       value: stats ? formatCurrency(stats.totalRevenue || 0) : "₦0",
-      icon: DollarSign,
-      color: "text-green-600",
-      bg: "bg-green-100",
+      icon: Wallet,
+      hint: "All completed payments",
+      featured: true,
     },
     {
       title: "Total Orders",
       value: stats?.totalOrders?.toLocaleString() || "0",
       icon: ShoppingCart,
-      color: "text-blue-600",
-      bg: "bg-blue-100",
+      hint: "Across all statuses",
     },
     {
       title: "Total Products",
       value: stats?.totalProducts?.toLocaleString() || "0",
       icon: Package,
-      color: "text-purple-600",
-      bg: "bg-purple-100",
+      hint: "Listed in the catalogue",
     },
     {
       title: "Total Users",
       value: stats?.totalUsers?.toLocaleString() || "0",
       icon: Users,
-      color: "text-orange-600",
-      bg: "bg-orange-100",
+      hint: "Registered customers",
     },
   ];
 
   if (isLoading) {
     return (
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
           <Card key={i}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <div className="h-4 w-24 bg-muted animate-pulse rounded" />
-              <div className="h-8 w-8 bg-muted animate-pulse rounded-lg" />
-            </CardHeader>
-            <CardContent>
-              <div className="h-7 w-20 bg-muted animate-pulse rounded" />
+            <CardContent className="space-y-4 py-2">
+              <div className="flex items-center justify-between">
+                <div className="h-4 w-24 animate-pulse rounded bg-muted" />
+                <div className="h-10 w-10 animate-pulse rounded-xl bg-muted" />
+              </div>
+              <div className="h-8 w-28 animate-pulse rounded bg-muted" />
+              <div className="h-3 w-32 animate-pulse rounded bg-muted" />
             </CardContent>
           </Card>
         ))}
@@ -58,19 +56,65 @@ export function StatsCards() {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {cards.map((card) => (
-        <Card key={card.title}>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              {card.title}
-            </CardTitle>
-            <div className={`${card.bg} p-2 rounded-lg`}>
-              <card.icon className={`h-4 w-4 ${card.color}`} />
+        <Card
+          key={card.title}
+          className={
+            card.featured
+              ? "relative bg-sidebar text-sidebar-foreground ring-gold-500/30"
+              : "relative transition-shadow hover:shadow-md hover:shadow-gold-900/5"
+          }
+        >
+          {card.featured && (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-gold-500/20 blur-2xl"
+            />
+          )}
+          <CardContent className="relative py-2">
+            <div className="flex items-start justify-between">
+              <p
+                className={
+                  card.featured
+                    ? "text-sm font-medium text-gold-300"
+                    : "text-sm font-medium text-muted-foreground"
+                }
+              >
+                {card.title}
+              </p>
+              <div
+                className={
+                  card.featured
+                    ? "flex h-10 w-10 items-center justify-center rounded-xl bg-gold-gradient shadow-md shadow-gold-500/20"
+                    : "flex h-10 w-10 items-center justify-center rounded-xl border border-gold-200 bg-gold-50"
+                }
+              >
+                <card.icon
+                  className={
+                    card.featured ? "h-5 w-5 text-gold-900" : "h-5 w-5 text-gold-700"
+                  }
+                />
+              </div>
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{card.value}</div>
+            <p
+              className={
+                card.featured
+                  ? "mt-2 text-2xl font-semibold tracking-tight text-white tabular-nums sm:text-3xl"
+                  : "mt-2 text-2xl font-semibold tracking-tight tabular-nums sm:text-3xl"
+              }
+            >
+              {card.value}
+            </p>
+            <p
+              className={
+                card.featured
+                  ? "mt-1 text-xs text-sidebar-foreground/55"
+                  : "mt-1 text-xs text-muted-foreground"
+              }
+            >
+              {card.hint}
+            </p>
           </CardContent>
         </Card>
       ))}

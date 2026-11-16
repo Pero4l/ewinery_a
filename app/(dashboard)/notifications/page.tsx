@@ -61,14 +61,14 @@ export default function NotificationsPage() {
             <div
               key={notification.id}
               className={cn(
-                "p-4 border rounded-lg hover:bg-gray-50 transition-colors cursor-pointer",
-                !notification.isRead && "bg-[#722f37]/5 border-[#722f37]/20"
+                "p-4 border rounded-lg hover:bg-muted/60 transition-colors cursor-pointer",
+                !notification.isRead && "bg-primary/10 border-primary/30"
               )}
               onClick={() => !notification.isRead && handleMarkRead(notification.id)}
             >
               <div className="flex items-start gap-3">
                 {!notification.isRead && (
-                  <div className="h-2 w-2 rounded-full bg-[#722f37] mt-2 shrink-0" />
+                  <div className="h-2 w-2 rounded-full bg-primary mt-2 shrink-0" />
                 )}
                 <div className="flex-1 min-w-0">
                   <p className="font-medium">{notification.title}</p>

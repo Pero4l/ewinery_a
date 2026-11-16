@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { Loader2, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import {
   Card,
@@ -107,9 +108,8 @@ export default function ResetPasswordPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">New Password</Label>
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
               placeholder="Enter new password"
               {...register("password")}
             />
@@ -121,9 +121,8 @@ export default function ResetPasswordPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <Input
+            <PasswordInput
               id="confirmPassword"
-              type="password"
               placeholder="Confirm new password"
               {...register("confirmPassword")}
             />
@@ -141,7 +140,7 @@ export default function ResetPasswordPage() {
           </Button>
           <Link
             href="/login"
-            className="flex items-center gap-1 text-sm text-[#722f37] hover:underline"
+            className="flex items-center gap-1 text-sm text-gold-700 hover:underline"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to login

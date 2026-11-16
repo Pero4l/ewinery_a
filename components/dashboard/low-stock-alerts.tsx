@@ -20,7 +20,7 @@ export function LowStockAlerts() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Low Stock Alerts</CardTitle>
+          <CardTitle className="text-base font-semibold">Low Stock Alerts</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {Array.from({ length: 3 }).map((_, i) => (
@@ -36,7 +36,7 @@ export function LowStockAlerts() {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-base">Low Stock Alerts</CardTitle>
+        <CardTitle className="text-base font-semibold">Low Stock Alerts</CardTitle>
         {items.length > 0 && (
           <Badge variant="destructive" className="text-xs">
             {items.length}
@@ -57,7 +57,7 @@ export function LowStockAlerts() {
                 className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <AlertTriangle className="h-4 w-4 text-orange-500 shrink-0" />
+                  <AlertTriangle className="h-4 w-4 text-gold-600 shrink-0" />
                   <div>
                     <p className="text-sm font-medium">{product.name}</p>
                     {product.sku && (

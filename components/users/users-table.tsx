@@ -101,7 +101,7 @@ export function UsersTable() {
                     <TableCell className="font-medium">
                       <a
                         href={`/users/${user.id}`}
-                        className="hover:underline text-[#722f37]"
+                        className="hover:underline text-gold-700"
                       >
                         {user.fullName}
                       </a>
