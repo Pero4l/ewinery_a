@@ -52,7 +52,7 @@ export function OrdersTable() {
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1">
           <SearchInput
-            placeholder="Search by order number..."
+            placeholder="Search by order number or customer..."
             value={search}
             onChange={(v) => { setSearch(v); setPage(1); }}
           />
@@ -90,7 +90,22 @@ export function OrdersTable() {
                 {orders.map((order) => (
                   <TableRow key={order.id}>
                     <TableCell className="font-medium">{order.orderNumber}</TableCell>
-                    <TableCell>{order.user?.fullName || "-"}</TableCell>
+                    <TableCell>
+                      {order.user ? (
+                        order.user.fullName
+                      ) : order.isGuest ? (
+                        <div className="flex items-center gap-2">
+                          <span className="truncate max-w-[180px]">
+                            {order.shippingAddress?.recipientName || order.guestEmail || "Guest"}
+                          </span>
+                          <span className="inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                            Guest
+                          </span>
+                        </div>
+                      ) : (
+                        "-"
+                      )}
+                    </TableCell>
                     <TableCell>{formatCurrency(order.totalAmount)}</TableCell>
                     <TableCell>
                       <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${ORDER_STATUS_COLORS[order.status] || ""}`}>

@@ -1,5 +1,6 @@
 "use client";
 
+import { getErrorMessage } from "@/lib/api-client";
 import { useState } from "react";
 import {
   Select,
@@ -58,7 +59,7 @@ export function OrderStatusActions({
       setNote("");
       onSuccess();
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to update status";
+      const message = getErrorMessage(err, "Failed to update status");
       toast.error(message);
     }
   };

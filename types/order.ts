@@ -13,8 +13,21 @@ export interface Order {
   adminNote?: string;
   items: OrderItem[];
   statusHistory: OrderStatusHistory[];
-  user?: User;
+  /** null for guest orders */
+  user?: User | null;
+  userId?: string | null;
+  isGuest?: boolean;
+  guestEmail?: string | null;
+  /** Snapshot of the delivery address (guest orders also carry email + phone here) */
+  shippingAddress?: OrderAddress | null;
   address?: OrderAddress;
+  deliveryZoneName?: string | null;
+  couponCode?: string | null;
+  currency?: string;
+  itemCount?: number;
+  termsVersion?: string | null;
+  termsAcceptedAt?: string | null;
+  ageConfirmedAt?: string | null;
   transactionReference?: string;
   createdAt: string;
   updatedAt?: string;
@@ -48,12 +61,15 @@ export interface OrderStatusHistory {
 
 export interface OrderAddress {
   recipientName: string;
-  phone: string;
+  email?: string;
+  phone?: string;
+  label?: string;
   street: string;
   city: string;
   state: string;
   postalCode?: string;
-  country: string;
+  country?: string;
+  deliveryInstructions?: string;
 }
 
 export interface UpdateOrderStatusDto {

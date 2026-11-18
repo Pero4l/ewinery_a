@@ -16,6 +16,8 @@ import {
   TicketPercent,
   Bell,
   LogOut,
+  Truck,
+  Mail,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -43,6 +45,7 @@ const navSections = [
     items: [
       { label: "Orders", href: "/orders", icon: ShoppingCart },
       { label: "Transactions", href: "/transactions", icon: CreditCard },
+      { label: "Delivery", href: "/delivery", icon: Truck },
     ],
   },
   {
@@ -51,6 +54,7 @@ const navSections = [
       { label: "Users", href: "/users", icon: Users },
       { label: "Reviews", href: "/reviews", icon: Star },
       { label: "Support", href: "/support", icon: LifeBuoy },
+      { label: "Email broadcasts", href: "/emails", icon: Mail },
     ],
   },
 ];

@@ -20,6 +20,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AuthProvider, useAuth } from "@/providers/auth-provider";
+import { getErrorMessage } from "@/lib/api-client";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -46,11 +47,11 @@ function LoginFormInner() {
       await login(data.email, data.password);
       toast.success("Welcome back!");
     } catch (err: unknown) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : "Login failed. Please check your credentials.";
-      toast.error(message);
+      if ((err as { code?: string }).code === "EMAIL_NOT_VERIFIED") {
+        toast.info("Please verify your email. Enter the code we sent you.");
+        return;
+      }
+      toast.error(getErrorMessage(err, "Login failed. Please check your credentials."));
     } finally {
       setIsLoading(false);
     }

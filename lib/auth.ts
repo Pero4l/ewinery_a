@@ -45,3 +45,40 @@ export function isAdmin(user: { role?: string } | null): boolean {
 export function isAuthenticated(): boolean {
   return !!getAccessToken();
 }
+
+// Email awaiting verification (set when login answers 403 EMAIL_NOT_VERIFIED or after signup).
+const PENDING_EMAIL_KEY = "ewinery_pending_verification_email";
+
+export function setPendingVerificationEmail(email: string): void {
+  try {
+    sessionStorage.setItem(PENDING_EMAIL_KEY, email);
+  } catch {
+    // storage unavailable; the verify page lets the user type the email
+  }
+}
+
+export function getPendingVerificationEmail(): string {
+  try {
+    return sessionStorage.getItem(PENDING_EMAIL_KEY) || "";
+  } catch {
+    return "";
+  }
+}
+
+export function clearPendingVerificationEmail(): void {
+  try {
+    sessionStorage.removeItem(PENDING_EMAIL_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+/** Store a session from /auth/login or /auth/verify-email (same payload). */
+export function startSession(result: {
+  accessToken: string;
+  refreshToken: string;
+  user: Record<string, unknown>;
+}): void {
+  setTokens(result.accessToken, result.refreshToken);
+  setStoredUser(result.user);
+}

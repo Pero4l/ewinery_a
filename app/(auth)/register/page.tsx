@@ -20,6 +20,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AuthProvider, useAuth } from "@/providers/auth-provider";
+import { getErrorMessage } from "@/lib/api-client";
 
 const registerSchema = z
   .object({
@@ -31,7 +32,9 @@ const registerSchema = z
       .max(30, "Phone must be at most 30 characters"),
     password: z
       .string()
-      .min(6, "Password must be at least 6 characters"),
+      .min(6, "Password must be at least 6 characters")
+      .regex(/[A-Za-z]/, "Password must contain a letter")
+      .regex(/[0-9]/, "Password must contain a number"),
     confirmPassword: z.string(),
     signupKey: z.string().min(1, "Admin signup key is required"),
   })
@@ -64,13 +67,9 @@ function RegisterFormInner() {
         password: data.password,
         signupKey: data.signupKey,
       });
-      toast.success("Admin account created. Welcome!");
+      toast.success("Admin account created. Check your email for a 6-digit code.");
     } catch (err: unknown) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : "Registration failed. Please check your details.";
-      toast.error(message);
+      toast.error(getErrorMessage(err, "Registration failed. Please check your details."));
     } finally {
       setIsLoading(false);
     }

@@ -21,7 +21,8 @@ export function useOrders(params?: Record<string, string>) {
 export function useOrder(id: string | null) {
   return useSWR<Order>(
     id ? `/admin/orders/${id}` : null,
-    fetcher
+    // Accept both `{ order }` and a bare order object.
+    (url: string) => fetcher(url).then((d) => (d && d.order ? d.order : d))
   );
 }
 

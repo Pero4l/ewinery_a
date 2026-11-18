@@ -8,6 +8,9 @@ export interface User {
   emailVerifiedAt?: string | null;
   isEmailVerified?: boolean;
   isActive?: boolean;
+  termsVersion?: string | null;
+  termsAcceptedAt?: string | null;
+  ageConfirmedAt?: string | null;
   createdAt: string;
   updatedAt?: string;
 }

@@ -50,3 +50,16 @@ export type {
   AssignCouponDto,
   RevokeCouponDto,
 } from "./coupon";
+export type {
+  DeliverySettings,
+  DeliveryZone,
+  UpdateDeliverySettingsDto,
+  DeliveryZoneDto,
+} from "./delivery";
+export type {
+  EmailBroadcast,
+  BroadcastStatus,
+  BroadcastRecipient,
+  BroadcastRecipientStatus,
+  CreateBroadcastDto,
+} from "./broadcast";

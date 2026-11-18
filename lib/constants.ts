@@ -148,7 +148,9 @@ export const NAV_ITEMS = [
   { label: "Categories", href: "/categories", icon: "Tag" },
   { label: "Orders", href: "/orders", icon: "ShoppingCart" },
   { label: "Transactions", href: "/transactions", icon: "CreditCard" },
+  { label: "Delivery", href: "/delivery", icon: "Truck" },
   { label: "Coupons", href: "/coupons", icon: "TicketPercent" },
   { label: "Reviews", href: "/reviews", icon: "Star" },
   { label: "Support", href: "/support", icon: "LifeBuoy" },
+  { label: "Email broadcasts", href: "/emails", icon: "Mail" },
 ] as const;

@@ -10,13 +10,14 @@ import {
 import { useRouter } from "next/navigation";
 import type { User } from "@/types";
 import apiClient from "@/lib/api-client";
-import { isEmailVerified } from "@/lib/utils";
+import type { ApiError } from "@/lib/api-client";
 import {
   getAccessToken,
   getStoredUser,
-  setTokens,
-  setStoredUser,
+  getRefreshToken,
   clearTokens,
+  startSession,
+  setPendingVerificationEmail,
 } from "@/lib/auth";
 
 interface AuthContextType {
@@ -43,23 +44,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const login = useCallback(
-    async (email: string, password: string) => {
-      const { data } = await apiClient.post("/auth/login", {
-        email,
-        password,
-      });
-      const result = data.data;
-      setTokens(result.accessToken, result.refreshToken);
-      setStoredUser(result.user);
-      setUser(result.user);
-      if (result.user && !isEmailVerified(result.user)) {
-        router.push("/verify-email");
-      } else {
-        router.push("/dashboard");
-      }
+  const goToVerify = useCallback(
+    (email: string) => {
+      setPendingVerificationEmail(email);
+      router.push(`/verify-email?email=${encodeURIComponent(email)}`);
     },
     [router]
+  );
+
+  const login = useCallback(
+    async (email: string, password: string) => {
+      let result;
+      try {
+        const { data } = await apiClient.post("/auth/login", { email, password });
+        result = data.data;
+      } catch (err) {
+        // Password matched but the email is unverified: no tokens are issued.
+        if ((err as ApiError).code === "EMAIL_NOT_VERIFIED") {
+          goToVerify(email);
+          throw Object.assign(new Error("Please verify your email to continue."), {
+            code: "EMAIL_NOT_VERIFIED",
+          });
+        }
+        throw err;
+      }
+      if (result.user?.role !== "ADMIN") {
+        // Revoke the session we were just given; this dashboard is admin-only.
+        try {
+          await apiClient.post(
+            "/auth/logout",
+            { refreshToken: result.refreshToken },
+            { headers: { Authorization: `Bearer ${result.accessToken}` } }
+          );
+        } catch {
+          // ignore
+        }
+        throw new Error("This account does not have admin access.");
+      }
+      startSession(result);
+      setUser(result.user);
+      router.push("/dashboard");
+    },
+    [router, goToVerify]
   );
 
   const register = useCallback(
@@ -71,22 +97,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signupKey: string;
     }) => {
       const { data: res } = await apiClient.post("/admin/register", data);
-      const result = res.data;
-      setTokens(result.accessToken, result.refreshToken);
-      setStoredUser(result.user);
-      setUser(result.user);
-      if (result.user && !isEmailVerified(result.user)) {
-        router.push("/verify-email");
-      } else {
+      const result = res.data || {};
+      // Every account must verify its email before it can sign in.
+      if (result.accessToken && result.refreshToken && result.user?.isEmailVerified) {
+        startSession(result);
+        setUser(result.user);
         router.push("/dashboard");
+        return;
       }
+      goToVerify(data.email);
     },
-    [router]
+    [router, goToVerify]
   );
 
   const logout = useCallback(async () => {
     try {
-      await apiClient.post("/auth/logout");
+      await apiClient.post("/auth/logout", { refreshToken: getRefreshToken() });
     } catch {
       // ignore logout errors
     }
